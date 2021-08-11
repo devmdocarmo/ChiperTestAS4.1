@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ChiperTest</string>
+    <string name="example_short">Lorem Ipsum</string>
+    <string name="released_on">Released on: %1$s</string>
+    <string name="language">Language: %1$s</string>
+    <string name="average_vote">average vote: %1$.1f</string>
+</resources>
