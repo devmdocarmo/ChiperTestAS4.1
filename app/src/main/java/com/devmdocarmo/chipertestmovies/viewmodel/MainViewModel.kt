@@ -14,18 +14,21 @@ import retrofit2.Response
 import retrofit2.create
 
 class MainViewModel : ViewModel() {
+    //instance Retrofit
     private val retrofit = RetrofitService().instance.create<TMDBAPI>()
     private var page: Int= 1
+    //instance LiveData
     private val listMovies: MutableLiveData<ListMovies> by lazy {
         MutableLiveData<ListMovies>()
     }
 
     fun getMovies(): LiveData<ListMovies> {
+        //get LiveData values
         return listMovies
     }
 
     fun loadAListofMovies(pageNumber: Int) {
-        // Do an asynchronous operation to fetch users.
+        // Do an asynchronous operation to fetch movies.
         retrofit.getListofMovies(10, page = pageNumber, apiKey = BuildConfig.ACCESS_TOKEN)
             .enqueue(object : Callback<ListMovies> {
                 override fun onResponse(call: Call<ListMovies>, response: Response<ListMovies>) {

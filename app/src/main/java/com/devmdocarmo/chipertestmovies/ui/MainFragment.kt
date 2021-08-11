@@ -39,19 +39,23 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.list_movies)
+        //setting the viewModelProvider
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
+        //do the first charge
         viewModel.loadAListofMovies(pageToView)
+        //a corroutine for clean code, that is for go to movie details
         moviesAdapter = BestMoviesAdapter(listofMovies, context){ movie ->
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.container, MovieDetailsFragment.newInstance(movie))
                 ?.addToBackStack(null)
                 ?.commit()
         }
+        //setting the recycler principal configurations
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = moviesAdapter
         }
+
         initViewModel()
         isLoading = false
         initScrollListener()
