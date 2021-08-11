@@ -42,12 +42,17 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         viewModel.loadAListofMovies(pageToView)
-        moviesAdapter = BestMoviesAdapter(listofMovies, context)
+        moviesAdapter = BestMoviesAdapter(listofMovies, context){ movie ->
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, MovieDetailsFragment.newInstance(movie))
+                ?.addToBackStack(null)
+                ?.commit()
+        }
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = moviesAdapter
         }
-        loadMore()
+        initViewModel()
         isLoading = false
         initScrollListener()
     }
@@ -69,7 +74,7 @@ class MainFragment : Fragment() {
         })
     }
 
-    private fun loadMore() {
+    private fun initViewModel() {
         viewModel.getMovies().observe(viewLifecycleOwner){
             Log.d("RECYCLER","LISTA ANTES DE CAMBIO\n" +
                     "tam: ${listofMovies.size}, tam comming: ${it.results.size}\n"+

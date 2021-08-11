@@ -12,7 +12,7 @@ import com.devmdocarmo.chipertestmovies.R
 import com.devmdocarmo.chipertestmovies.models.ListMovies.Result
 import com.squareup.picasso.Picasso
 
-class BestMoviesAdapter(var listofMovies: ArrayList<Result?>, val context: Context?): RecyclerView.Adapter<BestMoviesAdapter.MovieHolder>() {
+class BestMoviesAdapter(var listofMovies: ArrayList<Result?>, val context: Context?, val callback : (movie: Result?) -> Unit): RecyclerView.Adapter<BestMoviesAdapter.MovieHolder>() {
 
     inner class MovieHolder(view: View): RecyclerView.ViewHolder(view) {
         var image = view.findViewById<ImageView>(R.id.image_movie)
@@ -36,6 +36,9 @@ class BestMoviesAdapter(var listofMovies: ArrayList<Result?>, val context: Conte
 
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         listofMovies[position]?.let { holder.bindView(it) }
+        holder.itemView.setOnClickListener {
+            callback.invoke(listofMovies[position])
+        }
     }
 
     override fun getItemCount(): Int= listofMovies.size
